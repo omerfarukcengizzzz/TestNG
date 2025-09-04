@@ -1,12 +1,15 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Duration;
 
 public class FirstSeleniumTest {
@@ -27,7 +30,7 @@ public class FirstSeleniumTest {
         driver.quit();
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void login() throws InterruptedException {
         driver.findElement(By.id("txtUsername")).sendKeys("Admin");
 
@@ -38,6 +41,22 @@ public class FirstSeleniumTest {
 
 
         Assert.assertEquals(driver.findElement(By.xpath("//div[text()='Employee Management']")).getText(), "Employee Management", "Login was unsuccessful.");
+    }
+
+    @AfterMethod
+    public void screenshotForFailures(ITestResult testResult) {
+
+        if (ITestResult.FAILURE == testResult.getStatus()){
+            TakesScreenshot screenshot = (TakesScreenshot) driver;
+            File source = screenshot.getScreenshotAs(OutputType.FILE);
+            File destination = new File(System.getProperty("user.dir") + "/resources/screenshots" + testResult.getName() + ".png");
+            try {
+                Files.copy(source.toPath(), destination.toPath());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+
     }
 
 }
