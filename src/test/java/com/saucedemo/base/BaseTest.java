@@ -1,6 +1,6 @@
 package com.saucedemo.base;
 
-import com.saucedemo.pages.BasePage;
+import com.base.BasePage;
 import com.saucedemo.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
