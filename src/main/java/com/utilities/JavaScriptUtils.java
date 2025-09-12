@@ -14,4 +14,10 @@ public class JavaScriptUtils extends Utils {
         ((JavascriptExecutor)driver).executeScript(jsScript, element);
     }
 
+    public static void clickOnElementJS(By locator) {
+        WebElement element = driver.findElement(locator);
+        String jsScript = "arguments[0].click();";
+        ((JavascriptExecutor)driver).executeScript(jsScript, element);
+    }
+
 }
